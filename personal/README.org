@@ -1,6 +1,0 @@
-# OYWL personal configuration for perlude-emacs
-
-
-# 2022-12-22's commit based the same
-# 2021-11-1's commit is based on following version
-c52889d * master origin/master [Fix #1345] Replace packages gitconfig-mode and gitignore-mode with git-modes (#1346)
