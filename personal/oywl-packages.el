@@ -19,54 +19,91 @@
                                  highlight-symbol
                                  lsp-mode
                                  golden-ratio
+                                 vue-mode
+                                 highlight-indent-guides
+                                 highlight-parentheses
                                  ;; idle-highlight-mode
                                  ) prelude-packages))
 ;; Install my packages
 (prelude-install-packages)
 
-;; elpy mode
-;; (elpy-enable)
 
-;; hightlight
-;; (require 'highlight-symbol)
-;; (global-set-key [(control f3)] 'ymbol)
-;; (global-set-key [f3] 'highlight-symbol-next)
-;; (global-set-key [(shift f3)] 'highlight-symbol-prev)
-;; (global-set-key [(meta f3)] 'highlight-symbol-query-replace)
-;; (add-hook 'prelude-python-mode 'idle-highlight-mode)
-
-;; flycheck
+;;; flycheck
+;; Turn off specific checker
 (with-eval-after-load 'flycheck
-  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
-(with-eval-after-load 'flycheck
-  (setq-default flycheck-disabled-checkers '(python-pylint)))
+  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc python-pylint lsp)))
 
-;; lsp-mode
-;; (add-hook 'python-mode-hook 'lsp-diagnostics-mode)
+
+;;; lsp-mode
 (require 'lsp-mode)
-(setq lsp-diagnostics-provider :none)
-;; (setq lsp-ui-sideline-show-diagnostics nil)
-(setq lsp-ui-doc-show-with-mouse nil)
-;; (setq lsp-pylsp-configuration-sources 'flake8)
-;; (setq lsp-modeline-diagnostics-enable nil)
-;; (setq lsp-modeline-code-actions-enable t)
-;; (setq lsp-eldoc-enable-hover t)
+;; (setq lsp-diagnostics-provider :none)
+(setq lsp-ui-sideline-show-diagnostics t)
+(setq lsp-modeline-diagnostics-enable t)
+(setq lsp-ui-doc-show-with-mouse t)
+;; Turn off headerline
+(setq lsp-headerline-breadcrumb-enable nil)
+;; Turn off code actions modeline
+(setq lsp-modeline-code-actions-enable nil)
+(setq lsp-ui-sideline-show-code-actions nil)
+;; Turn off eldoc mouse hover
+(setq lsp-eldoc-enable-hover nil)
+;; Show prefix details in command line
+(with-eval-after-load 'lsp-mode
+  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration))
 
-;; python-mode
+
+;;; python-mode
 (setq python-shell-completion-native-disabled-interpreters '("python"))
 (setq prelude-python-mode-set-encoding-automatically t)
-(setq company-idle-delay 0.5)
 (add-hook 'prelude-python-mode-hook #'lsp-deferred)
-(setq lsp-headerline-breadcrumb-enable nil)  ;; disable headline
-(setq-local flycheck-checkers '())  ;; set checker
+;; (setq lsp-pylsp-configuration-sources 'flake8)
 
-;; avy-configs
+
+;;; company-mode
+(setq company-idle-delay 0.3)
+
+
+;;; avy configuration
 (setq avy-timeout-seconds 0.25)
-;; oywl-js-mode
-(add-hook 'prelude-js-mode-hook #'lsp-deferred)
 
-;; window-golden-ratio
-;; (require 'golden-ratio)
-;; (golden-ratio-mode 1)
-;; (setq golden-ratio-adjust-factor .7
-      ;; golden-ratio-wide-adjust-factor .5)
+
+;;; js/js2-mode
+(add-hook 'prelude-js-mode-hook #'lsp-deferred)
+;; Turn off js2 mode errors & warnings (we lean on eslint/standard)
+(setq js2-mode-show-parse-errors nil)
+(setq js2-mode-show-strict-warnings nil)
+
+
+;;; typescript-mode
+(add-hook 'prelude-ts-mode-hook #'lsp-deferred)
+
+
+;;; vue-mode
+(require 'js2-mode)
+(add-to-list 'auto-mode-alist '("\\.vue\\'"    . vue-mode))
+(add-hook 'vue-mode-hook #'lsp-deferred)
+
+
+;;; highlight-sexp
+;; (require 'highlight-sexp)
+;; (add-hook 'prelude-js-mode-hook 'highlight-sexp-mode)
+;; (setq highlight-parentheses-highlight-adjacent t)
+
+
+;;; highlight parentheses
+(require 'highlight-parentheses)
+(add-hook 'prog-mode-hook (lambda ()
+                            (unless (derived-mode-p 'emacs-lisp-mode)
+                              (highlight-parentheses-mode))))
+
+
+;;; highlight-indent-guides
+(require 'highlight-indent-guides)
+(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+(setq highlight-indent-guides-method 'bitmap)
+(setq highlight-indent-guides-bitmap-function 'highlight-indent-guides--bitmap-dots)
+;; Turn off customize dots color
+;; (setq highlight-indent-guides-auto-enabled nil)
+;; ;; (set-face-background 'highlight-indent-guides-odd-face "darkgray")
+;; ;; (set-face-background 'highlight-indent-guides-even-face "dimgray")
+;; ;; (set-face-foreground 'highlight-indent-guides-character-face "dimgray")
