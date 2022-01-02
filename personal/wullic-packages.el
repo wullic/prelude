@@ -13,6 +13,7 @@
                                  gruvbox-theme
                                  ample-theme
                                  color-theme-sanityinc-tomorrow
+                                 vscode-dark-plus-theme
                                  drag-stuff
                                  lsp-mode
                                  ;; golden-ratio
@@ -24,23 +25,35 @@
                                  htmlize
                                  format-all
                                  direnv
+                                 workgroups2
+                                 ;; meow
                                  ) prelude-packages))
 ;; Install my packages
 (prelude-install-packages)
 
 
-;;; company-mode
+;;; Meow-mode
+;; (require 'meow)
+;; (meow-setup)
+;; (meow-global-mode 1)
+
+;;; Company-mode
 (setq company-idle-delay 0.25)
 
 
-;;; avy configuration
+;;; Avy configuration
 (setq avy-timeout-seconds 0.25)
 
 
-;;; flycheck
+;;; Flycheck
 ;; Turn off specific checker
 (with-eval-after-load 'flycheck
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc python-pylint lsp)))
+
+
+;;; Workgroups2
+(require 'workgroups2)
+(workgroups-mode 1)   ; put this one at the bottom of .emacs
 
 
 ;;; lsp-mode
@@ -70,6 +83,7 @@
 (add-hook 'vue-mode-hook #'lsp-deferred)
 
 
+;;; Program Language
 ;;; python-mode
 (setq python-shell-interpreter "python3")
 (setq python-shell-completion-native-enable nil)
@@ -77,31 +91,28 @@
 (setq prelude-python-mode-set-encoding-automatically t)
 ;; (setq lsp-pylsp-configuration-sources 'flake8)
 
-
 ;;; js/js2-mode
 ;; Turn off js2 mode errors & warnings (we lean on eslint/standard)
 (setq js2-mode-show-parse-errors nil)
 (setq js2-mode-show-strict-warnings nil)
-
 
 ;;; vue-mode
 (require 'js2-mode)
 (add-to-list 'auto-mode-alist '("\\.vue\\'"    . vue-mode))
 
 
+;;; Hightlight
 ;;; highlight-sexp
 (require 'highlight-sexp)
 (add-hook 'lisp-mode-hook 'highlight-sexp-mode)
 (add-hook 'emacs-lisp-mode-hook 'highlight-sexp-mode)
 ;; (setq highlight-parentheses-highlight-adjacent t)
 
-
 ;;; highlight parentheses
 (require 'highlight-parentheses)
 (add-hook 'prog-mode-hook (lambda ()
                             (unless (derived-mode-p 'emacs-lisp-mode)
                               (highlight-parentheses-mode))))
-
 
 ;;; highlight-indent-guides
 (require 'highlight-indent-guides)
@@ -115,10 +126,10 @@
 ;; ;; (set-face-foreground 'highlight-indent-guides-character-face "dimgray")
 
 
-;;; direnv
+;;; Direnv
 (require 'direnv)
 (direnv-mode)
 
 
-;;; format-all
+;;; Format-all
 (add-hook 'prog-mode-hook 'format-all-mode)

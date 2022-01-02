@@ -100,6 +100,10 @@
 (define-key prelude-mode-map (kbd "s-u 0") 'delete-window)
 (define-key prelude-mode-map (kbd "s-u 2") 'split-window-below)
 (define-key prelude-mode-map (kbd "s-u 3") 'split-window-right)
+;; workgroups2
+(define-key prelude-mode-map (kbd "s-u w c") 'wg-create-workgroup)
+(define-key prelude-mode-map (kbd "s-u w o") 'wg-open-workgroup)
+(define-key prelude-mode-map (kbd "s-u w k") 'wg-kill-workgroup)
 
 ;; (define-key prelude-mode-map (kbd "s-p I") nil)
 ;; (define-key prelude-mode-map (kbd "s-p I") 'my-projectile-ibuffer)
