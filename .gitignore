@@ -30,3 +30,6 @@ transient/
 var/
 .cache/
 .lsp-session*
+/.dap-breakpoints
+/anaconda-mode/
+*.json
