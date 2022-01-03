@@ -26,16 +26,16 @@
                                  format-all
                                  direnv
                                  workgroups2
-                                 ;; meow
+                                 meow
                                  ) prelude-packages))
 ;; Install my packages
 (prelude-install-packages)
 
 
 ;;; Meow-mode
-;; (require 'meow)
-;; (meow-setup)
-;; (meow-global-mode 1)
+(require 'meow)
+(meow-setup)
+(meow-global-mode 1)
 
 ;;; Company-mode
 (setq company-idle-delay 0.25)

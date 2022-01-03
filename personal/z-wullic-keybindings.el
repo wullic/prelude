@@ -71,6 +71,8 @@
 
 
 ;;; Edit skill & Cursor control
+;; meow-mode
+(define-key key-translation-map (kbd "C-i") (kbd "<escape>"))
 (define-key prelude-mode-map (kbd "s-k") 'crux-kill-whole-line)
 (define-key prelude-mode-map (kbd "s-w") 'ace-window)
 (global-set-key (kbd "s-e") 'er/expand-region)
@@ -82,9 +84,9 @@
 ;; (global-set-key (kbd "s-w") 'easy-kill)
 (define-key key-translation-map (kbd "M-h") (kbd "M-DEL"))
 ;; newline
-(global-set-key (kbd "C-o") `crux-smart-open-line-above)
+(global-set-key (kbd "C-o") `meow-open-above)
 (define-key prelude-mode-map (kbd "s-o") nil)
-(global-set-key (kbd "s-o") 'crux-smart-open-line)
+(global-set-key (kbd "s-o") 'meow-open-below)
 ;; buffer control
 (define-key prelude-mode-map (kbd "s-u") nil)
 (define-key prelude-mode-map (kbd "s-u u") 'revert-buffer)
