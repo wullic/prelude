@@ -64,8 +64,15 @@
 ;; search
 (define-key prelude-mode-map (kbd "s-i f") 'isearch-forward)
 (define-key prelude-mode-map (kbd "s-i s") 'isearch-backward)
-(define-key prelude-mode-map (kbd "s-i g") 'counsel-git)
+(define-key prelude-mode-map (kbd "s-i g") 'rgrep)
+(define-key prelude-mode-map (kbd "s-i f") 'counsel-git)
 (define-key prelude-mode-map (kbd "s-i j") 'counsel-git-grep)
+(define-key prelude-mode-map (kbd "s-i r") 'counsel-git-grep-query-replace)
+(define-key prelude-mode-map (kbd "s-i s") 'counsel-git-grep-switch-cmd)
+(define-key prelude-mode-map (kbd "s-i k") 'counsel-ag)
+(define-key prelude-mode-map (kbd "s-i l") 'counsel-locate)
+(define-key prelude-mode-map (kbd "s-i h") 'counsel-minibuffer-history)
+(define-key prelude-mode-map (kbd "s-i o") 'counsel-rhythmbox)
 ;; counsel find
 (define-key prelude-mode-map (kbd "s-f") 'counsel-find-file)
 

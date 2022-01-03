@@ -9,25 +9,25 @@
 ;; My packages
 (setq prelude-packages (append '(
                                  solarized-theme
-                                 cyberpunk-theme
                                  gruvbox-theme
                                  ample-theme
                                  color-theme-sanityinc-tomorrow
                                  vscode-dark-plus-theme
+
                                  drag-stuff
                                  lsp-mode
-                                 ;; golden-ratio
+                                 lsp-treemacs
+                                 lsp-python-ms
                                  vue-mode
                                  highlight-symbol
                                  highlight-indent-guides
                                  highlight-parentheses
-                                 lsp-python-ms
                                  htmlize
                                  format-all
                                  direnv
                                  workgroups2
                                  meow
-                                 ob-translate
+                                 ;; wgrep
                                  ) prelude-packages))
 ;; Install my packages
 (prelude-install-packages)
@@ -51,6 +51,9 @@
 (defun my-text-mode-hook ()
   (setq-local company-backends '(company-ispell)))
 (add-hook 'text-mode-hook #'my-text-mode-hook)
+
+;;; wgrep-mode
+;; (require 'wgrep)
 
 
 ;;; Avy-mode

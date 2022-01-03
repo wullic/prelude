@@ -33,3 +33,5 @@ var/
 /.dap-breakpoints
 /anaconda-mode/
 *.json
+/personal/org/org-html-themes-master/
+/eln-cache/
