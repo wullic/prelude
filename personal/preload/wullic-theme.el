@@ -6,5 +6,5 @@
 ;; (setq prelude-theme 'sanityinc-tomorrow-eighties)
 
 ;; font family
-(set-frame-font "Monaco-20" nil t)
+(set-frame-font "Monaco-15" nil t)
 ;; (set-frame-font "monospace-15" nil t)

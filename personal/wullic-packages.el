@@ -27,10 +27,14 @@
                                  direnv
                                  workgroups2
                                  meow
+                                 ob-translate
                                  ) prelude-packages))
 ;; Install my packages
 (prelude-install-packages)
 
+;;; Bug fix
+;; #BUG: magit and org mode TAB broken
+;; (add-hook 'prog-mode-hook 'turn-on-visual-line-mode)
 
 ;;; Meow-mode
 (require 'meow)
@@ -38,10 +42,18 @@
 (meow-global-mode 1)
 
 ;;; Company-mode
+(require 'company)
 (setq company-idle-delay 0.25)
+(with-eval-after-load 'company
+  (define-key company-active-map (kbd "<tab>") #'company-complete-common-or-cycle)
+  (define-key company-active-map (kbd "<backtab>") (lambda () (interactive) (company-complete-common-or-cycle -1))))
+;; Config different diffent backen in different mode
+(defun my-text-mode-hook ()
+  (setq-local company-backends '(company-ispell)))
+(add-hook 'text-mode-hook #'my-text-mode-hook)
 
 
-;;; Avy configuration
+;;; Avy-mode
 (setq avy-timeout-seconds 0.25)
 
 
@@ -72,15 +84,6 @@
 ;; Show prefix details in command line
 (with-eval-after-load 'lsp-mode
   (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration))
-;; Python
-;; choose lsp-python-ms as ls language server
-(require 'lsp-python-ms)
-(setq lsp-python-ms-auto-install-server t)
-(add-hook 'prelude-python-mode-hook #'lsp)
-;; Typescript choose typescript language server in npm
-(add-hook 'prelude-ts-mode-hook #'lsp)
-(add-hook 'prelude-js-mode-hook #'lsp)
-(add-hook 'vue-mode-hook #'lsp-deferred)
 
 
 ;;; Program Language
@@ -91,14 +94,25 @@
 (setq prelude-python-mode-set-encoding-automatically t)
 ;; (setq lsp-pylsp-configuration-sources 'flake8)
 
+
+;; choose lsp-python-ms as ls language server
+(require 'lsp-python-ms)
+(setq lsp-python-ms-auto-install-server t)
+(add-hook 'prelude-python-mode-hook #'lsp-deferred)
+
+
 ;;; js/js2-mode
 ;; Turn off js2 mode errors & warnings (we lean on eslint/standard)
 (setq js2-mode-show-parse-errors nil)
 (setq js2-mode-show-strict-warnings nil)
+;; Typescript choose typescript language server in npm
+(add-hook 'prelude-js-mode-hook #'lsp-deferred)
+(add-hook 'prelude-ts-mode-hook #'lsp-deferred)
 
 ;;; vue-mode
 (require 'js2-mode)
 (add-to-list 'auto-mode-alist '("\\.vue\\'"    . vue-mode))
+(add-hook 'vue-mode-hook #'lsp-deferred)
 
 
 ;;; Hightlight

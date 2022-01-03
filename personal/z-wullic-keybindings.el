@@ -60,7 +60,7 @@
 (define-key prelude-mode-map (kbd "s-d r") 'lsp-find-references)
 
 
-;;; Search
+;;; Filter/Select/Action
 ;; search
 (define-key prelude-mode-map (kbd "s-i f") 'isearch-forward)
 (define-key prelude-mode-map (kbd "s-i s") 'isearch-backward)
@@ -70,16 +70,21 @@
 (define-key prelude-mode-map (kbd "s-f") 'counsel-find-file)
 
 
+;;; Basic
+(define-key prelude-mode-map (kbd "C-<return>") 'toggle-frame-fullscreen)
 ;;; Edit skill & Cursor control
 ;; meow-mode
-(define-key key-translation-map (kbd "C-i") (kbd "<escape>"))
+;; C-i unbind with <TAB>
+(define-key input-decode-map (kbd "C-i") (kbd "H-i"))
+(define-key key-translation-map (kbd "H-i") (kbd "<escape>"))
 (define-key prelude-mode-map (kbd "s-k") 'crux-kill-whole-line)
 (define-key prelude-mode-map (kbd "s-w") 'ace-window)
 (global-set-key (kbd "s-e") 'er/expand-region)
 (global-set-key (kbd "C-j") 'join-line)
 ;; (define-key key-translation-map (kbd "C-j") (kbd "RET"))
 ;; (define-key key-translation-map (kbd "C-j") (kbd "C-SPC"))
-(global-set-key (kbd "C-;") 'comment-line)
+(global-set-key (kbd "C-;") nil)
+(define-key prelude-mode-map (kbd "C-;") 'comment-line)
 (global-set-key (kbd "<backtab>") 'python-indent-shift-left)
 ;; (global-set-key (kbd "s-w") 'easy-kill)
 (define-key key-translation-map (kbd "M-h") (kbd "M-DEL"))
@@ -118,8 +123,8 @@
 
 
 ;;; Help menu
-(global-set-key (kbd "C-x h") 'help-command)
-(global-set-key (kbd "C-h") 'sp-backward-delete-char)
+;; (global-set-key (kbd "C-x h") 'help-command)
+;; (global-set-key (kbd "C-h") 'sp-backward-delete-char)
 
 
 ;;; Highlight symbol
