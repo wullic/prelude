@@ -33,8 +33,8 @@
    '("." . meow-bounds-of-thing)
    '("<" . meow-beginning-of-thing)
    '(">" . meow-end-of-thing)
-   ;; '("a" . meow-append)
-   '("a" . crux-move-beginning-of-line)
+   '("a" . meow-append)
+   ;; '("a" . crux-move-beginning-of-line)
 
    '("A" . meow-open-below)
    '("b" . meow-back-word)

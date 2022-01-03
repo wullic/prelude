@@ -59,6 +59,8 @@
 ;;; Avy-mode
 (setq avy-timeout-seconds 0.25)
 
+;;; Flyspell
+(setq prelude-flyspell nil)
 
 ;;; Flycheck
 ;; Turn off specific checker
