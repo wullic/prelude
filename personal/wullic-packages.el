@@ -27,7 +27,10 @@
                                  direnv
                                  workgroups2
                                  meow
-                                 ;; wgrep
+                                 ;; marginalia
+                                 wgrep
+                                 ripgrep
+                                 rg
                                  ) prelude-packages))
 ;; Install my packages
 (prelude-install-packages)
@@ -51,22 +54,33 @@
 (defun my-text-mode-hook ()
   (setq-local company-backends '(company-ispell)))
 (add-hook 'text-mode-hook #'my-text-mode-hook)
+;; Set up orderless mode
+(setq orderless-component-separator "[ &]")
+(defun just-one-face (fn &rest args)
+  (let ((orderless-match-faces [completions-common-part]))
+    (apply fn args)))
+
+(advice-add 'company-capf--candidates :around #'just-one-face)
+
+
+;; Enable richer annotations using the Marginalia package
+;; (require 'marginalia)
+;; (define-key minibuffer-local-map (kbd "M-a") 'marginalia-cycle)
+;; (marginalia-mode)
 
 ;;; wgrep-mode
-;; (require 'wgrep)
-
+(require 'wgrep)
 
 ;;; Avy-mode
 (setq avy-timeout-seconds 0.25)
 
 ;;; Flyspell
-(setq prelude-flyspell nil)
+;; (setq prelude-flyspell nil)
 
 ;;; Flycheck
 ;; Turn off specific checker
 (with-eval-after-load 'flycheck
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc python-pylint lsp)))
-
 
 ;;; Workgroups2
 (require 'workgroups2)
@@ -123,8 +137,8 @@
 ;;; Hightlight
 ;;; highlight-sexp
 (require 'highlight-sexp)
-(add-hook 'lisp-mode-hook 'highlight-sexp-mode)
-(add-hook 'emacs-lisp-mode-hook 'highlight-sexp-mode)
+;; (add-hook 'lisp-mode-hook 'highlight-sexp-mode)
+;; (add-hook 'emacs-lisp-mode-hook 'highlight-sexp-mode)
 ;; (setq highlight-parentheses-highlight-adjacent t)
 
 ;;; highlight parentheses

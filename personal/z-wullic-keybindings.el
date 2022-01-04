@@ -62,19 +62,33 @@
 
 ;;; Filter/Select/Action
 ;; search
-(define-key prelude-mode-map (kbd "s-i f") 'isearch-forward)
-(define-key prelude-mode-map (kbd "s-i s") 'isearch-backward)
+(define-key prelude-mode-map (kbd "s-i i") 'consult-isearch-forward)
+(define-key prelude-mode-map (kbd "s-i s") 'consult-isearch-backward)
 (define-key prelude-mode-map (kbd "s-i g") 'rgrep)
-(define-key prelude-mode-map (kbd "s-i f") 'counsel-git)
-(define-key prelude-mode-map (kbd "s-i j") 'counsel-git-grep)
-(define-key prelude-mode-map (kbd "s-i r") 'counsel-git-grep-query-replace)
-(define-key prelude-mode-map (kbd "s-i s") 'counsel-git-grep-switch-cmd)
-(define-key prelude-mode-map (kbd "s-i k") 'counsel-ag)
-(define-key prelude-mode-map (kbd "s-i l") 'counsel-locate)
-(define-key prelude-mode-map (kbd "s-i h") 'counsel-minibuffer-history)
-(define-key prelude-mode-map (kbd "s-i o") 'counsel-rhythmbox)
+(define-key prelude-mode-map (kbd "s-i f") 'consult-find)
+(define-key prelude-mode-map (kbd "s-i j") 'consult-git-grep)
+(define-key prelude-mode-map (kbd "s-i l") 'consult-locate)
+(define-key prelude-mode-map (kbd "s-i h") 'consult-history)
+;;; my-consult-prefix
+(defun my-consult-prefix ()
+  (interactive)
+  (minibuffer-with-setup-hook (lambda () (insert "consult "))
+    (call-interactively #'execute-extended-command)))
+(define-key prelude-mode-map (kbd "s-i c") 'my-consult-prefix)
+;;; my-embark-prefix
+ (defun my-embark-prefix ()
+   (interactive)
+   (minibuffer-with-setup-hook (lambda () (insert "embark "))
+     (call-interactively #'execute-extended-command)))
+ (define-key prelude-mode-map (kbd "s-i a") 'my-embark-prefix)
+;;; my-embark-prefix
+  (defun my-query-replace-prefix ()
+    (interactive)
+    (minibuffer-with-setup-hook (lambda () (insert "query replace "))
+      (call-interactively #'execute-extended-command)))
+  (define-key prelude-mode-map (kbd "s-i r") 'my-query-replace-prefix)
 ;; counsel find
-(define-key prelude-mode-map (kbd "s-f") 'counsel-find-file)
+(define-key prelude-mode-map (kbd "s-f") 'find-file)
 
 
 ;;; Basic
@@ -106,7 +120,7 @@
 (define-key prelude-mode-map (kbd "s-u n") 'next-buffer)
 (define-key prelude-mode-map (kbd "s-u k") 'kill-buffer)
 (define-key prelude-mode-map (kbd "s-u i") 'ibuffer)
-(define-key prelude-mode-map (kbd "s-u b") 'ivy-switch-buffer)
+(define-key prelude-mode-map (kbd "s-u b") 'consult-buffer)
 (define-key prelude-mode-map (kbd "s-u I") 'projectile-ibuffer)
 ;; window conrtorl
 (define-key prelude-mode-map (kbd "s-u s") 'crux-swap-windows)
