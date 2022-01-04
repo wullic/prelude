@@ -67,6 +67,7 @@
 (define-key prelude-mode-map (kbd "s-i g") 'rgrep)
 (define-key prelude-mode-map (kbd "s-i f") 'consult-find)
 (define-key prelude-mode-map (kbd "s-i j") 'consult-git-grep)
+(define-key prelude-mode-map (kbd "s-i k") 'consult-ripgrep)
 (define-key prelude-mode-map (kbd "s-i l") 'consult-locate)
 (define-key prelude-mode-map (kbd "s-i h") 'consult-history)
 ;;; my-consult-prefix
@@ -89,6 +90,9 @@
   (define-key prelude-mode-map (kbd "s-i r") 'my-query-replace-prefix)
 ;; counsel find
 (define-key prelude-mode-map (kbd "s-f") 'find-file)
+;; embark
+(define-key prelude-mode-map (kbd "C-.") 'embark-act)
+(define-key prelude-mode-map (kbd "s-.") 'embark-dwim)
 
 
 ;;; Basic
@@ -159,7 +163,7 @@
 
 ;;; undo-Redo
 ;; C-c <left>, C-c <right>
-(global-set-key (kbd "C-u") 'undo-tree-undo)
+;; (global-set-key (kbd "C-u") 'undo-tree-undo)
 (global-set-key (kbd "C-r") 'undo-tree-redo)
 
 

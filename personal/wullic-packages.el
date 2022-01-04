@@ -23,7 +23,7 @@
                                  highlight-indent-guides
                                  highlight-parentheses
                                  htmlize
-                                 format-all
+                                 ;; format-all
                                  direnv
                                  workgroups2
                                  meow
@@ -72,7 +72,7 @@
 (require 'wgrep)
 
 ;;; Avy-mode
-(setq avy-timeout-seconds 0.25)
+;; (setq avy-timeout-seconds 0.25)
 
 ;;; Flyspell
 ;; (setq prelude-flyspell nil)
@@ -86,9 +86,13 @@
 (require 'workgroups2)
 (workgroups-mode 1)   ; put this one at the bottom of .emacs
 
+(require 'yasnippet)
+(yas-global-mode 1)
 
 ;;; lsp-mode
-(require 'lsp-mode)
+(require 'lsp)
+(require 'lsp-python-ms)
+;; UI settings
 ;; (setq lsp-diagnostics-provider :none)
 (setq lsp-ui-sideline-show-diagnostics t)
 (setq lsp-modeline-diagnostics-enable t)
@@ -104,6 +108,12 @@
 (with-eval-after-load 'lsp-mode
   (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration))
 
+;; lsp server settings
+(setq lsp-python-ms-auto-install-server t)
+(add-hook 'prelude-python-mode-hook #'lsp-deferred)
+(add-hook 'prelude-js-mode-hook #'lsp-deferred)
+(add-hook 'prelude-ts-mode-hook #'lsp-deferred)
+(add-hook 'vue-mode-hook #'lsp-deferred)
 
 ;;; Program Language
 ;;; python-mode
@@ -114,24 +124,16 @@
 ;; (setq lsp-pylsp-configuration-sources 'flake8)
 
 
-;; choose lsp-python-ms as ls language server
-(require 'lsp-python-ms)
-(setq lsp-python-ms-auto-install-server t)
-(add-hook 'prelude-python-mode-hook #'lsp-deferred)
-
-
 ;;; js/js2-mode
 ;; Turn off js2 mode errors & warnings (we lean on eslint/standard)
 (setq js2-mode-show-parse-errors nil)
 (setq js2-mode-show-strict-warnings nil)
 ;; Typescript choose typescript language server in npm
-(add-hook 'prelude-js-mode-hook #'lsp-deferred)
-(add-hook 'prelude-ts-mode-hook #'lsp-deferred)
+
 
 ;;; vue-mode
 (require 'js2-mode)
 (add-to-list 'auto-mode-alist '("\\.vue\\'"    . vue-mode))
-(add-hook 'vue-mode-hook #'lsp-deferred)
 
 
 ;;; Hightlight
@@ -165,4 +167,4 @@
 
 
 ;;; Format-all
-(add-hook 'prog-mode-hook 'format-all-mode)
+;; (add-hook 'prog-mode-hook 'format-all-mode)

@@ -1,0 +1,6 @@
+# -*- mode: python -*-
+# name: python def
+# key: python
+# --
+def func:
+    pass

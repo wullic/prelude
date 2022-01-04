@@ -1,30 +1,11 @@
-(prelude-require-packages '(vertico orderless savehist emacs))
-
-(require 'embark)
-(require 'vertico)
-(vertico-mode)
-
-;; Different scroll margin
-;; (setq vertico-scroll-margin 0)
-
-;; Show more candidates
-;; (setq vertico-count 20)
-
-;; Grow and shrink the Vertico minibuffer
-;; (setq vertico-resize t)
-
-;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
-;; (setq vertico-cycle t)
-
+;; Hack vertico
 ;; Automatically shrink Vertico for embark-collect-live
 (defun +embark-collect-hook ()
   (when (eq embark-collect--kind :live)
     (with-selected-window (active-minibuffer-window)
       (setq-local vertico-resize t vertico-count 0)
       (vertico--exhibit))))
-
 (add-hook 'embark-collect-mode-hook #'+embark-collect-hook)
-
 
 ;; Adjust number of visible candidates when buffer is resized
 ;; When resizing the minibuffer (e.g., via the mouse), adjust the number of visible candidates in Vertico automatically.
@@ -37,8 +18,6 @@
 		  (vertico--exhibit))))
 	    t t))
 
-
-
 ;; Prefix current candidate with arrow
 ;; Prefix the current candidate with “» “.
 (advice-add #'vertico--format-candidate :around
@@ -49,7 +28,6 @@
                    (propertize "» " 'face 'vertico-current)
                  "  ")
                cand)))
-
 
 ;; Customize sorting based on completion category
 ;; The sorting function can be adjusted based on the completion category. See #76 for the discussion.
@@ -212,63 +190,54 @@
       (setq previous-directory nil))))
 
 
+;; Hack embark
+(defun store-action-key+cmd (cmd)
+  (setq keycast--this-command-keys (this-single-command-keys)
+        keycast--this-command cmd))
 
-;; Optionally use the `orderless' completion style. See
-;; `+orderless-dispatch' in the Consult wiki for an advanced Orderless style
-;; dispatcher. Additionally enable `partial-completion' for file path
-;; expansion. `partial-completion' is important for wildcard support.
-;; Multiple files can be opened at once with `find-file' if you enter a
-;; wildcard. You may also give the `initials' completion style a try.
-(use-package orderless
-  :init
-  ;; Configure a custom style dispatcher (see the Consult wiki)
-  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
-  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-  (setq completion-styles '(orderless)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
+(advice-add 'embark-keymap-prompter :filter-return #'store-action-key+cmd)
 
-;; Persist history over Emacs restarts. Vertico sorts by history position.
-(use-package savehist
-  :init
-  (savehist-mode))
+(defun force-keycast-update (&rest _)
+  (force-mode-line-update t))
 
-;; A few more useful configurations...
-(use-package emacs
-  :init
-  ;; Add prompt indicator to `completing-read-multiple'.
-  ;; Alternatively try `consult-completing-read-multiple'.
-  (defun crm-indicator (args)
-    (cons (concat "[CRM] " (car args)) (cdr args)))
-  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
-
-  ;; Do not allow the cursor in the minibuffer prompt
-  (setq minibuffer-prompt-properties
-        '(read-only t cursor-intangible t face minibuffer-prompt))
-  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
-
-  ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
-  ;; Vertico commands are hidden in normal buffers.
-  ;; (setq read-extended-command-predicate
-  ;;       #'command-completion-default-include-p)
-
-  ;; Enable recursive minibuffers
-  (setq enable-recursive-minibuffers t))
+(dolist (cmd '(embark-act embark-become))
+  (advice-add cmd :before #'force-keycast-update))
 
 
-;;; Extension
-;; Configure directory extension.
-(use-package vertico-directory
-  :after vertico
-  :ensure nil
-  ;; More convenient directory navigation commands
-  :bind (:map vertico-map
-              ("RET" . vertico-directory-enter)
-              ("DEL" . vertico-directory-delete-char)
-              ("M-DEL" . vertico-directory-delete-word))
-  ;; Tidy shadowed file names
-  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+(defun embark-which-key-indicator ()
+  "An embark indicator that displays keymaps using which-key.
+The which-key help message will show the type and value of the
+current target followed by an ellipsis if there are further
+targets."
+  (lambda (&optional keymap targets prefix)
+    (if (null keymap)
+        (which-key--hide-popup-ignore-command)
+      (which-key--show-keymap
+       (if (eq (plist-get (car targets) :type) 'embark-become)
+           "Become"
+         (format "Act on %s '%s'%s"
+                 (plist-get (car targets) :type)
+                 (embark--truncate-target (plist-get (car targets) :target))
+                 (if (cdr targets) "…" "")))
+       (if prefix
+           (pcase (lookup-key keymap prefix 'accept-default)
+             ((and (pred keymapp) km) km)
+             (_ (key-binding prefix 'accept-default)))
+         keymap)
+       nil nil t (lambda (binding)
+                   (not (string-suffix-p "-argument" (cdr binding))))))))
 
-;; (require 'vertico-grid)
-(vertico-mouse-mode)
-(vertico-multiform-mode)
+(setq embark-indicators
+  '(embark-which-key-indicator
+    embark-highlight-indicator
+    embark-isearch-highlight-indicator))
+
+(defun embark-hide-which-key-indicator (fn &rest args)
+  "Hide the which-key indicator immediately when using the completing-read prompter."
+  (which-key--hide-popup-ignore-command)
+  (let ((embark-indicators
+         (remq #'embark-which-key-indicator embark-indicators)))
+      (apply fn args)))
+
+(advice-add #'embark-completing-read-prompter
+            :around #'embark-hide-which-key-indicator)
