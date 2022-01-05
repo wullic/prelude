@@ -30,21 +30,16 @@
                                  wgrep
                                  ripgrep
                                  rg
+                                 smart-mode-line
                                  ) prelude-packages))
 ;; Install my packages
 (prelude-install-packages)
-
-
-;;; Meow-mode
-(require 'meow)
-(meow-setup)
-(meow-global-mode 1)
 
 ;;; wgrep-mode
 (require 'wgrep)
 
 ;;; flyspell
-(setq prelude-flyspell nil)
+;; (setq prelude-flyspell nil)
 
 ;;; flycheck
 ;; Turn off specific checker
@@ -57,6 +52,10 @@
 
 (require 'yasnippet)
 (yas-global-mode 1)
+
+(require 'smart-mode-line)
+(sml/setup)
+(setq sml/theme 'light)
 
 ;;; lsp-mode
 (require 'lsp)
@@ -106,12 +105,6 @@
 
 
 ;;; Hightlight
-;;; highlight-sexp
-(require 'highlight-sexp)
-;; (add-hook 'lisp-mode-hook 'highlight-sexp-mode)
-;; (add-hook 'emacs-lisp-mode-hook 'highlight-sexp-mode)
-;; (setq highlight-parentheses-highlight-adjacent t)
-
 ;;; highlight parentheses
 (require 'highlight-parentheses)
 (add-hook 'prog-mode-hook (lambda ()
@@ -137,3 +130,5 @@
 
 ;;; Format-all
 ;; (add-hook 'prog-mode-hook 'format-all-mode)
+
+(provide 'core-packages)

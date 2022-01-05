@@ -1,53 +1,3 @@
-(use-package vertico
-  :init
-  (vertico-mode) +1)
-;; counsel-find-file feature
-(use-package vertico-directory
-  :after vertico
-  :ensure nil
-  :bind (:map vertico-map
-              ("RET" . vertico-directory-enter)
-              ("DEL" . vertico-directory-delete-char)
-              ("M-DEL" . vertico-directory-delete-word))
-  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
-;; (require 'vertico-grid)
-(vertico-mouse-mode)
-(vertico-multiform-mode)
-
-(use-package orderless
-  :init
-  (setq completion-styles '(orderless)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion))))
-)
-
-;; Persist history over Emacs restarts. Vertico sorts by history position.
-(use-package savehist
-  :init
-  (savehist-mode))
-
-;; A few more useful configurations...
-(use-package emacs
-  :init
-  ;; Add prompt indicator to `completing-read-multiple'.
-  ;; Alternatively try `consult-completing-read-multiple'.
-  (defun crm-indicator (args)
-    (cons (concat "[CRM] " (car args)) (cdr args)))
-  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
-
-  ;; Do not allow the cursor in the minibuffer prompt
-  (setq minibuffer-prompt-properties
-        '(read-only t cursor-intangible t face minibuffer-prompt))
-  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
-
-  ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
-  ;; Vertico commands are hidden in normal buffers.
-  ;; (setq read-extended-command-predicate
-  ;;       #'command-completion-default-include-p)
-
-  ;; Enable recursive minibuffers
-  (setq enable-recursive-minibuffers t))
-
 (use-package consult
   :bind (
          ("C-s" . consult-line)
@@ -128,43 +78,6 @@
   :ensure t)
 (use-package consult-company
   :ensure t)
-(use-package marginalia
-  :ensure t
-  :config (marginalia-mode))
 
-(use-package embark
-  :ensure t
-  :bind
-  (("C-." . embark-act)         ;; pick some comfortable binding
-   ("C-;" . embark-dwim)        ;; good alternative: M-.
-   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
 
-  :init
-  ;; Optionally replace the key help with a completing-read interface
-  (setq prefix-help-command #'embark-prefix-help-command)
-)
-
-(use-package company
-  :config
-  (setq company-idle-delay 0.15)
-)
-
-(add-hook 'company-completion-started-hook
-          (lambda (&rest ignore)
-            (setq completion-styles
-                  '(partial-completion substring initials flex))))
-(add-hook 'company-after-completion-hook
-          (lambda (&rest ignore)
-            (setq completion-styles '(orderless))))
-
-;; <tab> Tips
-(with-eval-after-load 'company
-  (define-key company-active-map (kbd "<tab>")
-              #'company-complete-common-or-cycle)
-  (define-key company-active-map (kbd "<backtab>")
-              (lambda () (interactive) (company-complete-common-or-cycle -1)))
-)
-;; Config different diffent backen in different mode
-(defun my-text-mode-hook ()
-  (setq-local company-backends '(company-ispell)))
-(add-hook 'text-mode-hook #'my-text-mode-hook)
+(provide 'module-consult)

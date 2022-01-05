@@ -158,7 +158,6 @@
 (global-set-key (kbd "s-h h") 'highlight-symbol-at-point)
 (global-set-key (kbd "s-h n") 'highlight-symbol-next)
 (global-set-key (kbd "s-h p") 'highlight-symbol-prev)
-(global-set-key (kbd "s-h s") 'highlight-sexp-mode)
 
 
 ;;; undo-Redo
@@ -172,3 +171,5 @@
 ;; (global-set-key (kbd "C-q") 'set-mark-command)
 ;; (global-set-key (kbd "s-s") 'save-buffer)
 (global-set-key (kbd "C-x m") 'my-eshell)
+
+(provide 'module-wullic)

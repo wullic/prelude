@@ -1,3 +1,4 @@
+(require 'meow)
 (defun meow-setup ()
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-dvp)
   (meow-leader-define-key
@@ -81,3 +82,6 @@
    '("z" . meow-pop-selection)
    '("'" . repeat)
    '("<escape>" . ignore)))
+(meow-setup)
+(meow-global-mode 1)
+(provide 'module-meow)
