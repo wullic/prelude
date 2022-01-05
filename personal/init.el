@@ -119,13 +119,14 @@
 ;; (require 'module-python)
 ;; (require 'module-restclient)
 ;; (require 'module-yaml)
-;; (require 'module-yasnippet)
 (require 'module-meow)
 (require 'module-company)
 (require 'module-org)
 (require 'module-embark)
 (require 'module-vertico)
 (require 'module-consult)
+(require 'module-yasnippet)
+(require 'module-others)
 (require 'module-wullic)
 
 ;; load any custom user provided locals

@@ -70,29 +70,38 @@
 (define-key prelude-mode-map (kbd "s-i k") 'consult-ripgrep)
 (define-key prelude-mode-map (kbd "s-i l") 'consult-locate)
 (define-key prelude-mode-map (kbd "s-i h") 'consult-history)
-;;; my-consult-prefix
+;; my-consult-prefix
 (defun my-consult-prefix ()
   (interactive)
   (minibuffer-with-setup-hook (lambda () (insert "consult "))
     (call-interactively #'execute-extended-command)))
 (define-key prelude-mode-map (kbd "s-i c") 'my-consult-prefix)
-;;; my-embark-prefix
- (defun my-embark-prefix ()
+
+;; my-embark-prefix
+(defun my-embark-prefix ()
    (interactive)
    (minibuffer-with-setup-hook (lambda () (insert "embark "))
      (call-interactively #'execute-extended-command)))
- (define-key prelude-mode-map (kbd "s-i a") 'my-embark-prefix)
-;;; my-embark-prefix
-  (defun my-query-replace-prefix ()
+(define-key prelude-mode-map (kbd "s-i a") 'my-embark-prefix)
+
+;; my-query-prefix
+(defun my-query-replace-prefix ()
     (interactive)
     (minibuffer-with-setup-hook (lambda () (insert "query replace "))
       (call-interactively #'execute-extended-command)))
-  (define-key prelude-mode-map (kbd "s-i r") 'my-query-replace-prefix)
-;; counsel find
+(define-key prelude-mode-map (kbd "s-i r") 'my-query-replace-prefix)
+
+;; my-projectile-prefix
+;; my-query-prefix
+(defun my-query-replace-prefix ()
+  (interactive)
+  (minibuffer-with-setup-hook (lambda () (insert "query replace "))
+    (call-interactively #'execute-extended-command)))
+(define-key prelude-mode-map (kbd "s-i r") 'my-query-replace-prefix)
+
+;; consult find
 (define-key prelude-mode-map (kbd "s-f") 'find-file)
-;; embark
-(define-key prelude-mode-map (kbd "C-.") 'embark-act)
-(define-key prelude-mode-map (kbd "s-.") 'embark-dwim)
+(define-key prelude-mode-map (kbd "s-r") 'consult-recent-file)
 
 
 ;;; Basic
@@ -119,12 +128,12 @@
 (global-set-key (kbd "s-o") 'meow-open-below)
 ;; buffer control
 (define-key prelude-mode-map (kbd "s-u") nil)
-(define-key prelude-mode-map (kbd "s-u u") 'revert-buffer)
+(define-key prelude-mode-map (kbd "s-u v") 'revert-buffer)
 (define-key prelude-mode-map (kbd "s-u p") 'previous-buffer)
 (define-key prelude-mode-map (kbd "s-u n") 'next-buffer)
 (define-key prelude-mode-map (kbd "s-u k") 'kill-buffer)
 (define-key prelude-mode-map (kbd "s-u i") 'ibuffer)
-(define-key prelude-mode-map (kbd "s-u b") 'consult-buffer)
+(define-key prelude-mode-map (kbd "s-u u") 'consult-buffer)
 (define-key prelude-mode-map (kbd "s-u I") 'projectile-ibuffer)
 ;; window conrtorl
 (define-key prelude-mode-map (kbd "s-u s") 'crux-swap-windows)
@@ -136,9 +145,10 @@
 (define-key prelude-mode-map (kbd "s-u w c") 'wg-create-workgroup)
 (define-key prelude-mode-map (kbd "s-u w o") 'wg-open-workgroup)
 (define-key prelude-mode-map (kbd "s-u w k") 'wg-kill-workgroup)
+(define-key prelude-mode-map (kbd "s-p") 'previous-buffer)
+(define-key prelude-mode-map (kbd "s-n") 'next-buffer)
 
-;; (define-key prelude-mode-map (kbd "s-p I") nil)
-;; (define-key prelude-mode-map (kbd "s-p I") 'my-projectile-ibuffer)
+
 (global-set-key (kbd "M-p") 'backward-paragraph)
 (global-set-key (kbd "M-n") 'forward-paragraph)
 (global-set-key (kbd "s-<up>") 'drag-stuff-up)
@@ -162,7 +172,7 @@
 
 ;;; undo-Redo
 ;; C-c <left>, C-c <right>
-;; (global-set-key (kbd "C-u") 'undo-tree-undo)
+(global-set-key (kbd "C-/") 'undo-tree-undo)
 (global-set-key (kbd "C-r") 'undo-tree-redo)
 
 

@@ -50,14 +50,6 @@
 (require 'workgroups2)
 (workgroups-mode 1)   ; put this one at the bottom of .emacs
 
-(require 'yasnippet)
-(yas-global-mode 1)
-
-(require 'smart-mode-line)
-(sml/setup)
-(setq sml/theme 'light)
-
-;;; lsp-mode
 (require 'lsp)
 (require 'lsp-python-ms)
 ;; UI settings
@@ -130,5 +122,6 @@
 
 ;;; Format-all
 ;; (add-hook 'prog-mode-hook 'format-all-mode)
+
 
 (provide 'core-packages)

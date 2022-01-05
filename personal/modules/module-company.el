@@ -8,7 +8,7 @@
 
 (use-package company
   :config
-  (setq company-idle-delay 0.15)
+  (setq company-idle-delay 0.4)
 )
 
 (add-hook 'company-completion-started-hook
@@ -24,11 +24,12 @@
   (define-key company-active-map (kbd "<tab>")
               #'company-complete-common-or-cycle)
   (define-key company-active-map (kbd "<backtab>")
-              (lambda () (interactive) (company-complete-common-or-cycle -1)))
+              (lambda ()
+                (interactive)
+                (company-complete-common-or-cycle -1)))
 )
 ;; Config different diffent backen in different mode
 (defun my-text-mode-hook ()
   (setq-local company-backends '(company-ispell)))
 (add-hook 'text-mode-hook #'my-text-mode-hook)
-
 (provide 'module-company)

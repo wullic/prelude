@@ -2,7 +2,8 @@
   :bind (
          ("C-s" . consult-line)
          ("C-x b" . consult-buffer)
-         ("M-y" . consult-yank-pop))
+         ("M-y" . consult-yank-pop)
+         ("C-c f" . consult-recent-file))
 
   ;; Enable automatic preview at point in the *Completions* buffer. This is
   ;; relevant when you use the default completion UI. You may want to also
@@ -76,8 +77,8 @@
   :ensure t)
 (use-package consult-projectile
   :ensure t)
-(use-package consult-company
-  :ensure t)
+;; (use-package consult-company
+;;   :ensure t)
 
 
 (provide 'module-consult)
