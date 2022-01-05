@@ -191,19 +191,6 @@
 
 
 ;; Hack embark
-(defun store-action-key+cmd (cmd)
-  (setq keycast--this-command-keys (this-single-command-keys)
-        keycast--this-command cmd))
-
-(advice-add 'embark-keymap-prompter :filter-return #'store-action-key+cmd)
-
-(defun force-keycast-update (&rest _)
-  (force-mode-line-update t))
-
-(dolist (cmd '(embark-act embark-become))
-  (advice-add cmd :before #'force-keycast-update))
-
-
 (defun embark-which-key-indicator ()
   "An embark indicator that displays keymaps using which-key.
 The which-key help message will show the type and value of the

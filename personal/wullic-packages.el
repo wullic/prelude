@@ -8,8 +8,8 @@
 
 ;; My packages
 (setq prelude-packages (append '(
+                                 modus-themes
                                  solarized-theme
-                                 gruvbox-theme
                                  ample-theme
                                  color-theme-sanityinc-tomorrow
                                  vscode-dark-plus-theme
@@ -27,7 +27,6 @@
                                  direnv
                                  workgroups2
                                  meow
-                                 ;; marginalia
                                  wgrep
                                  ripgrep
                                  rg
@@ -35,49 +34,19 @@
 ;; Install my packages
 (prelude-install-packages)
 
-;;; Bug fix
-;; #BUG: magit and org mode TAB broken
-;; (add-hook 'prog-mode-hook 'turn-on-visual-line-mode)
 
 ;;; Meow-mode
 (require 'meow)
 (meow-setup)
 (meow-global-mode 1)
 
-;;; Company-mode
-(require 'company)
-(setq company-idle-delay 0.25)
-(with-eval-after-load 'company
-  (define-key company-active-map (kbd "<tab>") #'company-complete-common-or-cycle)
-  (define-key company-active-map (kbd "<backtab>") (lambda () (interactive) (company-complete-common-or-cycle -1))))
-;; Config different diffent backen in different mode
-(defun my-text-mode-hook ()
-  (setq-local company-backends '(company-ispell)))
-(add-hook 'text-mode-hook #'my-text-mode-hook)
-;; Set up orderless mode
-(setq orderless-component-separator "[ &]")
-(defun just-one-face (fn &rest args)
-  (let ((orderless-match-faces [completions-common-part]))
-    (apply fn args)))
-
-(advice-add 'company-capf--candidates :around #'just-one-face)
-
-
-;; Enable richer annotations using the Marginalia package
-;; (require 'marginalia)
-;; (define-key minibuffer-local-map (kbd "M-a") 'marginalia-cycle)
-;; (marginalia-mode)
-
 ;;; wgrep-mode
 (require 'wgrep)
 
-;;; Avy-mode
-;; (setq avy-timeout-seconds 0.25)
+;;; flyspell
+(setq prelude-flyspell nil)
 
-;;; Flyspell
-;; (setq prelude-flyspell nil)
-
-;;; Flycheck
+;;; flycheck
 ;; Turn off specific checker
 (with-eval-after-load 'flycheck
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc python-pylint lsp)))
