@@ -1,4 +1,5 @@
 (require 'meow)
+(require 'avy)
 (defun meow-setup ()
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-dvp)
   (meow-leader-define-key
@@ -54,9 +55,10 @@
    '("i" . meow-insert)
    '("I" . meow-open-above)
    ;; '("j" . meow-find)
-   '("j" . meow-join)
+   '("j" . avy-goto-char-timer)
    '("k" . meow-kill)
    '("l" . meow-till)
+   '("l" . avy-goto-char-in-line)
    '("m" . meow-mark-word)
    '("M" . meow-mark-symbol)
    '("n" . meow-next)

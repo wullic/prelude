@@ -9,11 +9,10 @@
 ;; My packages
 (setq prelude-packages (append '(
                                  modus-themes
-                                 solarized-theme
-                                 ample-theme
-                                 color-theme-sanityinc-tomorrow
+                                 ;; solarized-theme
+                                 ;; ample-theme
+                                 ;; color-theme-sanityinc-tomorrow
                                  vscode-dark-plus-theme
-
                                  drag-stuff
                                  lsp-mode
                                  lsp-treemacs

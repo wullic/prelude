@@ -5,8 +5,8 @@
 (use-package embark
   :ensure t
   :bind
-  (("C-." . embark-act-noquit)
-   ("C-s-." . embark-act)         ;; pick some comfortable binding
+  (("C-s-." . embark-act-noquit)
+   ("C-." . embark-act)         ;; pick some comfortable binding
    ("C-;" . embark-dwim)        ;; good alternative: M-.
    ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
 

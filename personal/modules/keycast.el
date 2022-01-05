@@ -56,7 +56,7 @@ into `mode-line-format' after the element specified here."
                        sexp)
                (boolean :tag "Remove following elements")))
 
-(defcustom keycast-remove-tail-elements t
+(defcustom keycast-remove-tail-elements nil
   "Whether enabling `keycast-mode' removes elements to the right.
 When this is non-nil, then enabling `keycast-mode' not only
 inserts `mode-line-keycast' into `mode-line-format' but also
