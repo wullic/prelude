@@ -1,8 +1,8 @@
 ;; color-theme
 (disable-theme 'zenburn)
 
-(setq cur-hour (nth 2 (decode-time)))
-(if (or (> cur-hour 22) (< cur-hour 7))
+(setq-local cur-hour (nth 2 (decode-time)))
+(if (or (> cur-hour 21) (< cur-hour 8))
     (setq prelude-theme 'vscode-dark-plus)
   (setq prelude-theme 'modus-operandi))
 

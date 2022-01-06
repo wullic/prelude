@@ -56,28 +56,21 @@
 
 (defvar emacs-dir (file-name-directory "~/.emacs.d/")
   "The root dir of the Emacs distribution.")
-
-(defvar core-dir (expand-file-name "personal/core" emacs-dir)
-  "The home of core functionality.")
-
-(defvar modules-dir (expand-file-name "personal/modules" emacs-dir)
-  "This directory houses all of the modules.")
-
-(defvar persistent-dir (expand-file-name "personal/etc" emacs-dir)
-  "This directory houses files created by emacs packages")
-
+(defvar etc-dir (expand-file-name "personal/etc" emacs-dir)
+  "This directory houses files created by emacs")
 (defvar lisp-dir (expand-file-name "personal/lisp" emacs-dir)
+  "This directory houses core lisp")
+(defvar site-lisp-dir (expand-file-name "personal/site-lisp" emacs-dir)
   "This directory houses user lisp and site lisp")
 
-(unless (file-exists-p persistent-dir)
-  (make-directory persistent-dir))
+(unless (file-exists-p etc-dir)
+  (make-directory etc-dir))
 
-(if (file-exists-p (concat emacs-dir "src"))
-  (setq source-directory (concat emacs-dir "src")))
+(if (file-exists-p (concat emacs-dir "elpa"))
+  (setq elpa-dir (concat emacs-dir "elpa")))
 
-(add-to-list 'load-path core-dir)
-(add-to-list 'load-path modules-dir)
 (add-to-list 'load-path lisp-dir)
+(add-to-list 'load-path site-lisp-dir)
 
 ;; load the custom file
 ;; (setq custom-file (concat persistent-dir "/custom.el"))
@@ -91,43 +84,22 @@
 
 (message "Loading core...")
 
-;; (require 'core-bootstrap)
-;; (require 'core-ui)
-;; (when (eq system-type 'darwin) (require 'core-osx))
-;; (require 'core-packages)
-;; (require 'core-defuns)
-;; (require 'core-paths)
-(require 'core-packages)
+
 ;;---------------------------------------------------------------------
 ;; Modules
 ;;---------------------------------------------------------------------
 
 (message "Loading modules...")
-
-;; (require 'module-bbdb)
-;; (require 'module-c)
-;; (require 'module-company)
-;; (require 'module-eldoc)
-;; (require 'module-emacs-lisp)
-;; (require 'module-evil)
-;; (require 'module-git)
-;; (require 'module-go)
-;; (require 'module-multiple-cursors)
-;; (require 'module-org)
-;; (require 'module-projectile)
-;; (require 'module-protobuf)
-;; (require 'module-python)
-;; (require 'module-restclient)
-;; (require 'module-yaml)
-(require 'module-meow)
-(require 'module-company)
-(require 'module-org)
-(require 'module-embark)
-(require 'module-vertico)
-(require 'module-consult)
-(require 'module-yasnippet)
-(require 'module-others)
-(require 'module-wullic)
+(require 'init-packages)
+(require 'init-meow)
+(require 'init-company)
+(require 'init-org)
+(require 'init-embark)
+(require 'init-vertico)
+(require 'init-consult)
+(require 'init-yasnippet)
+(require 'init-lsp)
+(require 'init-wullic)
 
 ;; load any custom user provided locals
 ;; (require 'init-local nil t)

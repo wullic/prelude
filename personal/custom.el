@@ -10,10 +10,11 @@
  '(global-display-line-numbers-mode t)
  '(org-agenda-files nil)
  '(package-selected-packages
-   '(yasnippet-snippets smart-mode-line modus-operandi modus-themes doom-modeline ewal-doom-themes consult-company doom-themes spacemacs-theme consult-yasnippet consult-projectile consult-lsp evil-numbers evil-visualstar evil-surround evil consult-eglot irag-stuff embark consult-embark consult-dir github-dark-vscode-theme rg ripgrep zop-to-char zenburn-theme yaml-mode workgroups2 which-key wgrep web-mode vue-mode vscode-dark-plus-theme volatile-highlights vertico use-package undo-tree tide super-save solarized-theme smartrep smartparens rainbow-mode rainbow-delimiters projectile orderless operate-on-number ob-translate nlinum move-text meow marginalia magit lsp-ui lsp-python-ms json-mode js2-mode imenu-anywhere htmlize hl-todo highlight-symbol highlight-parentheses highlight-indent-guides guru-mode gruvbox-theme git-timemachine git-modes gist format-all expand-region exec-path-from-shell embark-consult elpy elisp-slime-nav editorconfig easy-kill drag-stuff discover-my-major direnv diminish diff-hl dart-mode dap-mode cython-mode cyberpunk-theme crux company-anaconda color-theme-sanityinc-tomorrow browse-kill-ring anzu ample-theme ag))
+   '(company lsp-treemacs lsp-mode yasnippet-snippets smart-mode-line modus-operandi modus-themes doom-modeline ewal-doom-themes consult-company doom-themes spacemacs-theme consult-yasnippet consult-projectile consult-lsp evil-numbers evil-visualstar evil-surround evil consult-eglot irag-stuff embark consult-embark consult-dir github-dark-vscode-theme rg ripgrep zop-to-char zenburn-theme yaml-mode workgroups2 which-key wgrep web-mode vue-mode vscode-dark-plus-theme volatile-highlights vertico use-package undo-tree tide super-save solarized-theme smartrep smartparens rainbow-mode rainbow-delimiters projectile orderless operate-on-number ob-translate nlinum move-text meow marginalia magit lsp-ui lsp-python-ms json-mode js2-mode imenu-anywhere htmlize hl-todo highlight-symbol highlight-parentheses highlight-indent-guides guru-mode gruvbox-theme git-timemachine git-modes gist format-all expand-region exec-path-from-shell embark-consult elpy elisp-slime-nav editorconfig easy-kill drag-stuff discover-my-major direnv diminish diff-hl dart-mode dap-mode cython-mode cyberpunk-theme crux company-anaconda color-theme-sanityinc-tomorrow browse-kill-ring anzu ample-theme ag))
  '(scroll-bar-mode nil)
  '(size-indication-mode t)
- '(tool-bar-mode nil))
+ '(tool-bar-mode nil)
+ '(warning-suppress-types '((use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

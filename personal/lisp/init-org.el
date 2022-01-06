@@ -2,4 +2,4 @@
  'org-babel-load-languages '((python . t)))
 (setq org-agenda-files (list "~/org/work.org"
                              "~/org/home.org"))
-(provide 'module-org)
+(provide 'init-org)

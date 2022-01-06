@@ -1,13 +1,13 @@
 (require 'package)
 (add-to-list 'package-archives
-             '("melpa-stable" . "http://stable.melpa.org/packages/")
+             '("melpa-stable" . "http://stable.melpa.org/packages/"))
               ;; '("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
               ;; '("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-              )
 (package-initialize)
 
 ;; My packages
 (setq prelude-packages (append '(
+                                 use-package
                                  modus-themes
                                  ;; solarized-theme
                                  ;; ample-theme
@@ -15,6 +15,7 @@
                                  vscode-dark-plus-theme
                                  drag-stuff
                                  lsp-mode
+                                 lsp-ui
                                  lsp-treemacs
                                  lsp-python-ms
                                  vue-mode
@@ -34,6 +35,10 @@
 ;; Install my packages
 (prelude-install-packages)
 
+;;---------------------------------------------------------------------
+;; Basic packages
+;;---------------------------------------------------------------------
+
 ;;; wgrep-mode
 (require 'wgrep)
 
@@ -49,32 +54,13 @@
 (require 'workgroups2)
 (workgroups-mode 1)   ; put this one at the bottom of .emacs
 
-(require 'lsp)
-(require 'lsp-python-ms)
-;; UI settings
-;; (setq lsp-diagnostics-provider :none)
-(setq lsp-ui-sideline-show-diagnostics t)
-(setq lsp-modeline-diagnostics-enable t)
-(setq lsp-ui-doc-show-with-mouse t)
-;; Turn off headerline
-(setq lsp-headerline-breadcrumb-enable nil)
-;; Turn off code actions modeline
-(setq lsp-modeline-code-actions-enable nil)
-(setq lsp-ui-sideline-show-code-actions nil)
-;; Turn off eldoc mouse hover
-(setq lsp-eldoc-enable-hover nil)
-;; Show prefix details in command line
-(with-eval-after-load 'lsp-mode
-  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration))
+;;; Direnv
+;; (require 'direnv)
+;; (direnv-mode)
 
-;; lsp server settings
-(setq lsp-python-ms-auto-install-server t)
-(add-hook 'prelude-python-mode-hook #'lsp-deferred)
-(add-hook 'prelude-js-mode-hook #'lsp-deferred)
-(add-hook 'prelude-ts-mode-hook #'lsp-deferred)
-(add-hook 'vue-mode-hook #'lsp-deferred)
-
-;;; Program Language
+;;---------------------------------------------------------------------
+;; Program Language
+;;---------------------------------------------------------------------
 ;;; python-mode
 (setq python-shell-interpreter "python3")
 (setq python-shell-completion-native-enable nil)
@@ -95,6 +81,12 @@
 (add-to-list 'auto-mode-alist '("\\.vue\\'"    . vue-mode))
 
 
+;;; Format-all
+;; (add-hook 'prog-mode-hook 'format-all-mode)
+
+;;---------------------------------------------------------------------
+;; Theme customize
+;;---------------------------------------------------------------------
 ;;; Hightlight
 ;;; highlight parentheses
 (require 'highlight-parentheses)
@@ -113,14 +105,13 @@
 ;; ;; (set-face-background 'highlight-indent-guides-even-face "dimgray")
 ;; ;; (set-face-foreground 'highlight-indent-guides-character-face "dimgray")
 
+(require 'minions)
+(minions-mode 1)
 
-;;; Direnv
-(require 'direnv)
-(direnv-mode)
+(require 'keycast)
+(keycast-mode 1)
+(display-time-mode 1)
+(provide 'module-others)
 
 
-;;; Format-all
-;; (add-hook 'prog-mode-hook 'format-all-mode)
-
-
-(provide 'core-packages)
+(provide 'init-packages)

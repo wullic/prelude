@@ -81,4 +81,4 @@
 ;;   :ensure t)
 
 
-(provide 'module-consult)
+(provide 'init-consult)

@@ -1,4 +1,5 @@
 (use-package vertico
+  :ensure t
   :init
   (vertico-mode) +1)
 ;; counsel-find-file feature
@@ -233,4 +234,4 @@
       (setq previous-directory nil))))
 
 
-(provide 'module-vertico)
+(provide 'init-vertico)

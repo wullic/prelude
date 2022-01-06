@@ -40,6 +40,41 @@
 ;; Showing info about available targets and actions
 ;;---------------------------------------------------------------------
 ;; which-key-indicator, delete because of BUG
+(defun embark-which-key-indicator ()
+  "An embark indicator that displays keymaps using which-key.
+The which-key help message will show the type and value of the
+current target followed by an ellipsis if there are further
+targets."
+  (lambda (&optional keymap targets prefix)
+    (if (null keymap)
+        (which-key--hide-popup-ignore-command)
+      (which-key--show-keymap
+       (if (eq (plist-get (car targets) :type) 'embark-become)
+           "Become"
+         (format "Act on %s '%s'%s"
+                 (plist-get (car targets) :type)
+                 (embark--truncate-target (plist-get (car targets) :target))
+                 (if (cdr targets) "…" "")))
+       (if prefix
+           (pcase (lookup-key keymap prefix 'accept-default)
+             ((and (pred keymapp) km) km)
+             (_ (key-binding prefix 'accept-default)))
+         keymap)
+       nil nil t (lambda (binding)
+                   (not (string-suffix-p "-argument" (cdr binding))))))))
+(setq embark-indicators
+  '(embark-which-key-indicator
+    embark-highlight-indicator
+    embark-isearch-highlight-indicator))
+
+(defun embark-hide-which-key-indicator (fn &rest args)
+  "Hide the which-key indicator immediately when using the completing-read prompter."
+  (which-key--hide-popup-ignore-command)
+  (let ((embark-indicators
+         (remq #'embark-which-key-indicator embark-indicators)))
+      (apply fn args)))
+(advice-add #'embark-completing-read-prompter
+            :around #'embark-hide-which-key-indicator)
 
 ;;---------------------------------------------------------------------
 ;; Definition actions for targets
@@ -70,11 +105,9 @@
 (define-key embark-file-map     (kbd "o") (my/embark-ace-action find-file))
 (define-key embark-buffer-map   (kbd "o") (my/embark-ace-action switch-to-buffer))
 (define-key embark-bookmark-map (kbd "o") (my/embark-ace-action bookmark-jump))
-
 (define-key embark-file-map     (kbd "2") (my/embark-split-action find-file split-window-below))
 (define-key embark-buffer-map   (kbd "2") (my/embark-split-action switch-to-buffer split-window-below))
 (define-key embark-bookmark-map (kbd "2") (my/embark-split-action bookmark-jump split-window-below))
-
 (define-key embark-file-map     (kbd "3") (my/embark-split-action find-file split-window-right))
 (define-key embark-buffer-map   (kbd "3") (my/embark-split-action switch-to-buffer split-window-right))
 (define-key embark-bookmark-map (kbd "3") (my/embark-split-action bookmark-jump split-window-right))
@@ -86,7 +119,6 @@
 (defun store-action-key+cmd (cmd)
   (setq keycast--this-command-keys (this-single-command-keys)
         keycast--this-command cmd))
-
 (advice-add 'embark-keymap-prompter :filter-return #'store-action-key+cmd)
 
 (defun force-keycast-update (&rest _)
@@ -123,4 +155,4 @@
           (run-with-idle-timer 0.1 t #'embark--target-mode-update))))
 
 
-(provide 'module-embark)
+(provide 'init-embark)

@@ -182,4 +182,4 @@
 ;; (global-set-key (kbd "s-s") 'save-buffer)
 (global-set-key (kbd "C-x m") 'my-eshell)
 
-(provide 'module-wullic)
+(provide 'init-wullic)

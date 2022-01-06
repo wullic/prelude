@@ -2,6 +2,7 @@
 (require 'diminish)
 
 (use-package orderless
+  :ensure t
   :init
   (setq completion-styles '(orderless)
         completion-category-defaults nil
@@ -76,4 +77,4 @@ inserted."
 
 (global-company-mode 1)
 
-(provide 'module-company)
+(provide 'init-company)

@@ -6,4 +6,4 @@
     :ensure t)
   (yas-reload-all))
 
-(provide 'module-yasnippet)
+(provide 'init-yasnippet)
