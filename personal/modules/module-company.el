@@ -1,4 +1,6 @@
 ;; completion
+(require 'diminish)
+
 (use-package orderless
   :init
   (setq completion-styles '(orderless)
@@ -7,29 +9,71 @@
 )
 
 (use-package company
+  :ensure t
   :config
-  (setq company-idle-delay 0.4)
+  (setq company-idle-delay 0.2)
+  (setq company-minimum-prefix-length 2)
+  (setq company-show-numbers nil)
+  (setq company-tooltip-limit 10)
+  (setq company-tooltip-align-annotations t)
 )
 
+
+;; Company completion-styles always inorder
 (add-hook 'company-completion-started-hook
           (lambda (&rest ignore)
             (setq completion-styles
-                  '(partial-completion substring initials flex))))
+                  '(basic substring))))
+                  ;; '(partial-completion substring initials flex))))
 (add-hook 'company-after-completion-hook
           (lambda (&rest ignore)
             (setq completion-styles '(orderless))))
 
-;; <tab> Tips
+(defun my/company-complete ()
+  "Insert the common part of all candidates or the current selection.
+The first time this is called, the common part is inserted, the second
+time, or when the selection has been changed, the selected candidate is
+inserted."
+  (interactive)
+  (when (company-manual-begin)
+    (if (or company-selection-changed
+            (and (eq real-last-command 'my/company-complete)
+                 (eq last-command 'company-complete-common))
+            (not company-common)
+            (equal company-prefix company-common))
+        (call-interactively 'company-complete-selection)
+      (call-interactively 'company-complete-common)
+      (when company-candidates
+        (setq this-command 'company-complete-common)))))
+
+
 (with-eval-after-load 'company
+  (diminish 'company-mode)
   (define-key company-active-map (kbd "<tab>")
-              #'company-complete-common-or-cycle)
+              #'my/company-complete)
   (define-key company-active-map (kbd "<backtab>")
               (lambda ()
                 (interactive)
                 (company-complete-common-or-cycle -1)))
-)
-;; Config different diffent backen in different mode
-(defun my-text-mode-hook ()
-  (setq-local company-backends '(company-ispell)))
-(add-hook 'text-mode-hook #'my-text-mode-hook)
+  (define-key company-active-map (kbd "M-.") 'company-show-location)
+  (define-key company-active-map (kbd "M-/") 'company-other-backend)
+  (setq-default company-dabbrev-other-buffers 'all
+                company-tooltip-align-annotations t))
+
+;; Config different backend in different mode
+(defun my-text-mode-company ()
+  (when (boundp 'company-backends)
+    (make-local-variable 'company-backends)
+    (setq company-backends (delete 'company-ispell company-backends))
+    (add-to-list 'company-backends 'company-ispell)))
+(add-hook 'text-mode-hook #'my-text-mode-company)
+
+;; company-yasnippet as 1'st backend
+;; actually company-capf work?
+(setq company-backends '((:separate company-yasnippet company-capf)))
+
+;; company-transformers to sorted?
+
+(global-company-mode 1)
+
 (provide 'module-company)
