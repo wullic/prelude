@@ -62,6 +62,13 @@ inserted."
                 company-tooltip-align-annotations t))
 
 ;; Config different backend in different mode
+(defun my-python-mode-company ()
+  (when (boundp 'company-backends)
+    (make-local-variable 'company-backends)
+    (setq company-backends (delete 'company-anaconda company-backends))
+    (add-to-list 'company-backends 'company-anaconda)))
+(add-hook 'python-mode-hook #'my-python-mode-company)
+
 (defun my-text-mode-company ()
   (when (boundp 'company-backends)
     (make-local-variable 'company-backends)

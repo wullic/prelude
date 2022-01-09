@@ -158,16 +158,16 @@
 
 
 ;;; Help menu
-;; (global-set-key (kbd "C-x h") 'help-command)
-;; (global-set-key (kbd "C-h") 'sp-backward-delete-char)
+(global-unset-key (kbd "s-h"))
+(global-set-key (kbd "s-h") 'help-command)
+(global-set-key (kbd "C-h") 'sp-backward-delete-char)
 
 
 ;;; Highlight symbol
-(global-unset-key (kbd "s-h"))
-(global-set-key (kbd "s-h s-h") 'help-command)
-(global-set-key (kbd "s-h h") 'highlight-symbol-at-point)
-(global-set-key (kbd "s-h n") 'highlight-symbol-next)
-(global-set-key (kbd "s-h p") 'highlight-symbol-prev)
+;; (global-set-key (kbd "s-h s-h") 'help-command)
+;; (global-set-key (kbd "s-h h") 'highlight-symbol-at-point)
+;; (global-set-key (kbd "s-h n") 'highlight-symbol-next)
+;; (global-set-key (kbd "s-h p") 'highlight-symbol-prev)
 
 
 ;;; undo-Redo

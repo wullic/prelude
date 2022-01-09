@@ -31,6 +31,7 @@
                                  ripgrep
                                  rg
                                  smart-mode-line
+                                 org-transclusion
                                  ) prelude-packages))
 ;; Install my packages
 (prelude-install-packages)
@@ -109,7 +110,7 @@
 (minions-mode 1)
 
 (require 'keycast)
-(keycast-mode 1)
+;; (keycast-mode 1)
 (display-time-mode 1)
 (provide 'module-others)
 
